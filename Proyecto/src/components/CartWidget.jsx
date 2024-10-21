@@ -1,8 +1,9 @@
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { Link } from 'react-router-dom';
 
-const CartWidget = () => {
+const CartWidget = ({ cartCount }) => {
   return (
-    <a href="/carrito" style={{ position: 'relative', display: 'inline-block', marginRight: '20px' }}>
+    <Link to="/carrito" style={{ position: 'relative', display: 'inline-block', marginRight: '20px' }}>
       <ShoppingCartIcon />
       <span 
         style={{
@@ -15,9 +16,9 @@ const CartWidget = () => {
           padding: '5px',
           fontSize: '12px',
         }}>
-        3 {/* Número hardcodeado */}
+        {cartCount}
       </span>
-    </a>
+    </Link>
   );
 };
 
