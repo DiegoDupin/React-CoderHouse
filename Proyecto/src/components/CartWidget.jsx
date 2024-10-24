@@ -3,8 +3,12 @@ import { Link } from 'react-router-dom';
 
 const CartWidget = ({ cartCount }) => {
   return (
-    <Link to="/carrito" style={{ position: 'relative', display: 'inline-block', marginRight: '20px' }}>
-      <ShoppingCartIcon />
+    <Link 
+      to="/carrito" 
+      style={{ position: 'relative', display: 'inline-block', marginRight: '20px' }} 
+      aria-label="Carrito de compras"
+    >
+      <ShoppingCartIcon aria-hidden="true" />
       <span 
         style={{
           position: 'absolute',
@@ -13,9 +17,12 @@ const CartWidget = ({ cartCount }) => {
           backgroundColor: 'red',
           color: 'white',
           borderRadius: '50%',
-          padding: '5px',
+          padding: '3px 6px',
           fontSize: '12px',
-        }}>
+          fontWeight: 'bold',
+        }}
+        aria-label={`Productos en el carrito: ${cartCount}`}
+      >
         {cartCount}
       </span>
     </Link>

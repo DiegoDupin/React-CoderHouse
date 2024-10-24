@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 
 const Item = ({ item }) => {
-  // Verificar si la imagen existe y es válida
   const imageUrl = item.images && item.images.length > 0 && item.images[0] ? item.images[0] : 'https://via.placeholder.com/250';
 
   return (
@@ -9,7 +8,6 @@ const Item = ({ item }) => {
       <h3>{item.title}</h3>
       <p>Precio: ${item.price}</p>
       <p>{item.description}</p>
-      {/* Usar imagen validada */}
       <img src={imageUrl} alt={item.title} style={{ maxWidth: '100%', height: 'auto' }} />
       <Link to={`/item/${item.id}`} style={{ marginTop: '10px', display: 'inline-block', color: '#007bff' }}>
         Ver detalles
