@@ -8,7 +8,6 @@ const ItemListContainer = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const allowedCategories = [1, 2, 3, 4, 5, 6];
 
   useEffect(() => {
