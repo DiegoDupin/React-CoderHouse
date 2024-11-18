@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import db from '../firebase/db';
 import ItemList from './ItemList';
 import Loader from './Loader';
 
@@ -8,47 +10,36 @@ const ItemListContainer = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const allowedCategories = [1, 2, 3, 4, 5, 6];
 
   useEffect(() => {
-    let url = 'https://api.escuelajs.co/api/v1/products';
-
-    if (categoryId) {
-      url = `https://api.escuelajs.co/api/v1/categories/${categoryId}/products`;
-    }
-
-    fetch(url)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Error en la respuesta de la API');
+    const fetchProducts = async () => {
+      setLoading(true);
+      try {
+        let q = collection(db, 'products');
+  
+        if (categoryId) {
+          q = query(q, where('category', '==', categoryId));
         }
-        return res.json();
-      })
-      .then((data) => {
-        let filteredProducts = categoryId ? data : data.filter(
-          product => allowedCategories.includes(product.category.id)
-        );
-
-        filteredProducts = filteredProducts.filter(product =>
-          product.title &&
-          product.title !== "New Product" &&
-          product.description &&
-          product.price &&
-          product.images &&
-          product.images.length > 0 &&
-          product.images[0].startsWith('http') &&
-          !product.images[0].includes('placeholder')
-        );
-
-        setItems(filteredProducts);
-        setLoading(false);
-      })
-      .catch((error) => {
+  
+        const querySnapshot = await getDocs(q);
+        const products = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+          price: typeof doc.data().price === 'number' ? doc.data().price : 0,
+        }));
+  
+        setItems(products);
+      } catch (error) {
         console.error('Error fetching products:', error);
         setError('Hubo un problema al cargar los productos.');
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+  
+    fetchProducts();
   }, [categoryId]);
+  
 
   if (loading) {
     return <Loader />;

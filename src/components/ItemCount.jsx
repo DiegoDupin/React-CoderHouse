@@ -1,21 +1,20 @@
 import { useState, useEffect } from 'react';
+import { useAppContext } from '../context/AppContext';
 
-const ItemCount = ({ stock, initial, onAdd }) => {
+const ItemCount = ({ product, stock, initial }) => {
   const [count, setCount] = useState(initial >= 1 && initial <= stock ? initial : 1);
+  const { addToCart } = useAppContext();
 
   useEffect(() => {
-    console.log('Valores iniciales -> stock:', stock, ', initial:', initial);
   }, [stock, initial]);
 
   const handleIncrease = () => {
-    console.log('Increase button clicked', count, stock);
     if (count < stock) {
       setCount(count + 1);
     }
   };
 
   const handleDecrease = () => {
-    console.log('Decrease button clicked', count);
     if (count > 1) {
       setCount(count - 1);
     }
@@ -43,10 +42,7 @@ const ItemCount = ({ stock, initial, onAdd }) => {
         </button>
       </div>
       <button 
-        onClick={() => {
-          console.log(`Añadiendo ${count} productos al carrito`);
-          onAdd(count);
-        }} 
+        onClick={() => addToCart(product, count)}
         aria-label={`Añadir ${count} productos al carrito`}
         style={{ marginTop: '10px', padding: '10px 20px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
       >

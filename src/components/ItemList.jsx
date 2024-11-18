@@ -5,6 +5,8 @@ const ItemList = ({ items }) => {
     return <p>No hay productos disponibles.</p>;
   }
 
+  const validItems = items.filter((item) => item && item.id && item.title);
+
   return (
     <ul
       style={{
@@ -17,7 +19,7 @@ const ItemList = ({ items }) => {
       }}
       aria-label="Lista de productos"
     >
-      {items.map((item) => (
+      {validItems.map((item) => (
         <Item key={item.id} item={item} />
       ))}
     </ul>

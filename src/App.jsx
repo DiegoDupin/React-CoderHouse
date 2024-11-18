@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import ItemListContainer from './components/ItemListContainer';
 import ItemDetailContainer from './components/ItemDetailContainer';
+import Cart from './components/Cart';
+import Checkout from './components/Checkout';
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
         <Route path="/productos" element={<ItemListContainer />} />
         <Route path="/item/:itemId" element={<ItemDetailContainer />} />
         <Route path="/categoria/:categoryId" element={<ItemListContainer />} />
+        <Route path="/carrito" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route 
           path="*" 
           element={
